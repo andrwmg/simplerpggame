@@ -1,6 +1,11 @@
 const canvas = document.querySelector('canvas')
 const c = canvas.getContext('2d')
-console.log(battleZonesData)
+
+gsap.to('#battleFlash', {
+    opacity: 0,
+    duration: .2,
+    yoyo: true
+})
 
 canvas.height = 576
 canvas.width = 1024
@@ -24,7 +29,7 @@ class Boundary {
         this.height = 12
     }
     draw() {
-        c.fillStyle = 'rgba(255,0,0,0.5)'
+        c.fillStyle = 'rgba(255,0,0,0.0)'
         c.fillRect(this.position.x, this.position.y, this.width, this.height)
     }
 }
@@ -85,6 +90,9 @@ playerImageRight.src = './img/playerRight.png'
 const foregroundImage = new Image()
 foregroundImage.src = './img/Foreground.png'
 
+const battleBackgroundImage = new Image()
+battleBackgroundImage.src = './img/battleBackground.png'
+
 class Sprite {
     constructor({ position, image, velocity, frames = { min: 1, max: 1 }, moving = false, sprites = [] }) {
         this.position = position
@@ -99,6 +107,7 @@ class Sprite {
     }
     draw() {
         c.drawImage(
+            //image to draw
             this.image,
             //crop width start
             this.frames.val * this.width,
@@ -107,15 +116,15 @@ class Sprite {
             //crop width end
             this.width,
             //crop height end
-            this.image.height,
+            this.height,
             //x-location
             this.position.x,
             //y-location
             this.position.y,
             //image width
-            this.image.width / (this.frames.min),
+            this.width / (this.frames.min),
             //image height
-            this.image.height / (this.frames.max)
+            this.height / (this.frames.max)
         )
         if (!this.moving) return
         if (this.frames.max > 1) {
@@ -125,8 +134,6 @@ class Sprite {
             if (this.frames.val < this.frames.max - 1) this.frames.val++
             else this.frames.val = 0
         }
-
-        // c.drawImage(this.image, this.position.x, this.position.y)
     }
 }
 
@@ -138,13 +145,22 @@ const background = new Sprite({
     image: image
 })
 
+const battleBackground = new Sprite({
+    position: {
+        x: 0,
+        y: 0
+    },
+    frames: {min: 1,max: 4},
+    image: battleBackgroundImage
+})
+
 const player = new Sprite({
     position: {
         x: canvas.width / 8 - 192 / 32,
         y: canvas.height / 8 - 68 / 8,
     },
     frames: {
-        min: 16,
+        min: 4,
         max: 4
     },
     image: playerDownImage,
@@ -195,8 +211,13 @@ function rectangularCollision({ rectangle1, rectangle2 }) {
     )
 }
 
+const battle = {
+    initiated: false
+}
+
 function animate() {
-    window.requestAnimationFrame(animate)
+    const animationId = window.requestAnimationFrame(animate)
+    console.log(animationId)
     background.draw()
     boundaries.forEach(boundary => {
         boundary.draw()
@@ -214,6 +235,11 @@ function animate() {
     player.draw()
     foreground.draw()
 
+    let moving = true
+    player.moving = false
+
+    if (battle.initiated) return
+
     if (keys.w.pressed || keys.a.pressed || keys.s.pressed || keys.d.pressed) {
         for (let i = 0; i < battleZones.length; i++) {
             const battleZone = battleZones[i]
@@ -227,15 +253,33 @@ function animate() {
                     rectangle1: player,
                     rectangle2: battleZone
                 }) &&
-                overlappingArea + 30 > (player.width / 4 * player.height / 4) / 2
+                overlappingArea + 30 > (player.width / 4 * player.height / 4) / 2 && Math.random() < 0.01
             ) {
-                console.log('battleZONNNEEE!')
+                battle.initiated = true
+                window.cancelAnimationFrame(animationId)
+                gsap.to('#battleFlash', {
+                    opacity: 1,
+                    repeat: 5,
+                    duration: 0.2,
+                    yoyo: true,
+                    onComplete() {
+                        gsap.to('#battleFlash', {
+                            opacity: 1,
+                            duration: 0.2,
+                            onComplete() {
+                                animateBattle()
+                                gsap.to('#battleFlash', {
+                                    opacity: 0,
+                                    duration: 0.2
+                                })
+                            }
+                        })
+                    }
+                })
             }
         }
     }
 
-    let moving = true
-    player.moving = false
     if (keys.w.pressed && lastKey === 'w') {
         player.moving = true
         player.image = player.sprites.up
@@ -324,6 +368,12 @@ function animate() {
 
 
 animate()
+
+function animateBattle() {
+    battleBackground.moving = false
+    window.requestAnimationFrame(animateBattle)
+    battleBackground.draw()
+}
 
 let lastKey = ''
 
