@@ -45,7 +45,7 @@ const monsters = {
             enemy: squirrelSprite,
             character: squirrelSprite
         },
-        attacks: [attacks.Tackle, attacks.Haunt],
+        attacks: [attacks.Bite, attacks.Rock],
         isEnemy: true
     }
 }

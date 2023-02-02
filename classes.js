@@ -165,7 +165,93 @@ class Monster extends Sprite {
                 break
             }
 
+            case 'Rock Throw': {
+                const rockImage = new Image()
+                rockImage.src = './img/SpriteSheetRock.png'
+                const rock = new Sprite({
+                    position: {
+                        x: this.position.x,
+                        y: this.position.y
+                    },
+                    frames: {
+                        min: 1,
+                        hold: 23,
+                        max: 4
+                    },
+                    rotation,
+                    animate: true,
+                    image: rockImage
+                })
+
+                renderedSprites.splice(1, 0, rock)
+
+                gsap.to(rock.position, {
+                    x: recipient.position.x,
+                    y: recipient.position.y,
+                    onComplete: () => {
+                            gsap.to(healthBar, {
+                                width: recipient.health + '%'
+                            })
+    
+                            gsap.to(recipient.position, {
+                                x: recipient.position.x + 10,
+                                yoyo: true,
+                                repeat: 5,
+                                duration: 0.08
+                            })
+    
+                            gsap.to(recipient, {
+                                opacity: 0,
+                                yoyo: true,
+                                repeat: 5,
+                                duration: 0.08
+                            })
+                        renderedSprites.splice(1,1)
+                    },
+                    
+                })
+
+                break
+            }
+
             case 'Tackle': {
+
+                const tl = gsap.timeline()
+
+                let movementDistance = 5
+                if (this.isEnemy) movementDistance = -5
+
+                tl.to(this.position, {
+                    x: this.position.x - movementDistance
+                }).to(this.position, {
+                    x: this.position.x + movementDistance * 2,
+                    duration: .1,
+                    onComplete: () => {
+
+                        gsap.to(healthBar, {
+                            width: recipient.health + '%'
+                        })
+
+                        gsap.to(recipient.position, {
+                            x: recipient.position.x + 10,
+                            yoyo: true,
+                            repeat: 5,
+                            duration: 0.08
+                        })
+
+                        gsap.to(recipient, {
+                            opacity: 0,
+                            yoyo: true,
+                            repeat: 5,
+                            duration: 0.08
+                        })
+                    }
+                }).to(this.position, {
+                    x: this.position.x
+                })
+                break
+            }
+            case 'Bite': {
 
                 const tl = gsap.timeline()
 
