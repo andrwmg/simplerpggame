@@ -93,49 +93,7 @@ foregroundImage.src = './img/Foreground.png'
 const battleBackgroundImage = new Image()
 battleBackgroundImage.src = './img/battleBackground.png'
 
-class Sprite {
-    constructor({ position, image, velocity, frames = { min: 1, max: 1 }, moving = false, sprites = [] }) {
-        this.position = position
-        this.image = image
-        this.frames = { ...frames, val: 0, elapsed: 0 }
-        this.image.onload = () => {
-            this.width = this.image.width / this.frames.max
-            this.height = this.image.height
-        }
-        this.moving = moving
-        this.sprites = sprites
-    }
-    draw() {
-        c.drawImage(
-            //image to draw
-            this.image,
-            //crop width start
-            this.frames.val * this.width,
-            //crop height start
-            0,
-            //crop width end
-            this.width,
-            //crop height end
-            this.height,
-            //x-location
-            this.position.x,
-            //y-location
-            this.position.y,
-            //image width
-            this.width / (this.frames.min),
-            //image height
-            this.height / (this.frames.max)
-        )
-        if (!this.moving) return
-        if (this.frames.max > 1) {
-            this.frames.elapsed++
-        }
-        if (this.frames.elapsed % 20 === 0) {
-            if (this.frames.val < this.frames.max - 1) this.frames.val++
-            else this.frames.val = 0
-        }
-    }
-}
+
 
 const background = new Sprite({
     position: {
@@ -145,29 +103,22 @@ const background = new Sprite({
     image: image
 })
 
-const battleBackground = new Sprite({
-    position: {
-        x: 0,
-        y: 0
-    },
-    frames: {min: 1,max: 4},
-    image: battleBackgroundImage
-})
-
 const player = new Sprite({
     position: {
         x: canvas.width / 8 - 192 / 32,
         y: canvas.height / 8 - 68 / 8,
     },
+    velocity: 1/2,
     frames: {
         min: 4,
+        hold: 20,
         max: 4
     },
     image: playerDownImage,
     sprites: {
-        down: playerDownImage, 
-        up: playerUpImage, 
-        left: playerLeftImage, 
+        down: playerDownImage,
+        up: playerUpImage,
+        left: playerLeftImage,
         right: playerImageRight
     }
 })
@@ -217,7 +168,6 @@ const battle = {
 
 function animate() {
     const animationId = window.requestAnimationFrame(animate)
-    console.log(animationId)
     background.draw()
     boundaries.forEach(boundary => {
         boundary.draw()
@@ -236,18 +186,18 @@ function animate() {
     foreground.draw()
 
     let moving = true
-    player.moving = false
+    player.animate = false
 
     if (battle.initiated) return
 
     if (keys.w.pressed || keys.a.pressed || keys.s.pressed || keys.d.pressed) {
         for (let i = 0; i < battleZones.length; i++) {
             const battleZone = battleZones[i]
-            const overlappingArea = 
-            (Math.min(player.position.x + player.width / 4, battleZone.position.x + battleZone.width) - 
-            Math.max(player.position.x, battleZone.position.x)) * 
-            (Math.min(player.position.y + player.height / 4, battleZone.position.y + battleZone.height) - 
-            Math.max(player.position.y, battleZone.position.y))
+            const overlappingArea =
+                (Math.min(player.position.x + player.width / 4, battleZone.position.x + battleZone.width) -
+                    Math.max(player.position.x, battleZone.position.x)) *
+                (Math.min(player.position.y + player.height / 4, battleZone.position.y + battleZone.height) -
+                    Math.max(player.position.y, battleZone.position.y))
             if (
                 rectangularCollision({
                     rectangle1: player,
@@ -267,6 +217,7 @@ function animate() {
                             opacity: 1,
                             duration: 0.2,
                             onComplete() {
+                                initBattle()
                                 animateBattle()
                                 gsap.to('#battleFlash', {
                                     opacity: 0,
@@ -281,7 +232,7 @@ function animate() {
     }
 
     if (keys.w.pressed && lastKey === 'w') {
-        player.moving = true
+        player.animate = true
         player.image = player.sprites.up
         for (let i = 0; i < boundaries.length; i++) {
             const boundary = boundaries[i]
@@ -297,12 +248,12 @@ function animate() {
         }
         if (moving) {
             movables.forEach((movable) => {
-                movable.position.y += 3 / 4
+                movable.position.y += player.velocity
             })
         }
     }
     else if (keys.a.pressed && lastKey === 'a') {
-        player.moving = true
+        player.animate = true
         player.image = player.sprites.left
         for (let i = 0; i < boundaries.length; i++) {
             const boundary = boundaries[i]
@@ -318,12 +269,12 @@ function animate() {
         }
         if (moving) {
             movables.forEach((movable) => {
-                movable.position.x += 3 / 4
+                movable.position.x += player.velocity
             })
         }
     }
     else if (keys.s.pressed && lastKey === 's') {
-        player.moving = true
+        player.animate = true
         player.image = player.sprites.down
         for (let i = 0; i < boundaries.length; i++) {
             const boundary = boundaries[i]
@@ -339,12 +290,12 @@ function animate() {
         }
         if (moving) {
             movables.forEach((movable) => {
-                movable.position.y -= 3 / 4
+                movable.position.y -= player.velocity
             })
         }
     }
     else if (keys.d.pressed && lastKey === 'd') {
-        player.moving = true
+        player.animate = true
         player.image = player.sprites.right
         for (let i = 0; i < boundaries.length; i++) {
             const boundary = boundaries[i]
@@ -360,20 +311,13 @@ function animate() {
         }
         if (moving) {
             movables.forEach((movable) => {
-                movable.position.x -= 3 / 4
+                movable.position.x -= player.velocity
             })
         }
     }
 }
 
-
 animate()
-
-function animateBattle() {
-    battleBackground.moving = false
-    window.requestAnimationFrame(animateBattle)
-    battleBackground.draw()
-}
 
 let lastKey = ''
 

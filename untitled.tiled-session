@@ -1,4 +1,39 @@
 {
+    "activeFile": "First Map.tmx",
+    "expandedProjectPaths": [
+    ],
+    "fileStates": {
+        "CollisionTileset.tsx": {
+            "scaleInDock": 1,
+            "scaleInEditor": 1
+        },
+        "First Asset pack.tsx": {
+            "scaleInDock": 2.8195,
+            "scaleInEditor": 1
+        },
+        "First Map.tmx": {
+            "expandedGroupLayers": [
+                15
+            ],
+            "scale": 2.81,
+            "selectedLayer": 15,
+            "viewCenter": {
+                "x": 415.83629893238435,
+                "y": 159.60854092526694
+            }
+        }
+    },
     "last.exportedFilePath": "/Users/andrew/Documents/Game Project/First Game",
-    "map.lastUsedExportFilter": "JSON map files (*.tmj *.json)"
+    "map.lastUsedExportFilter": "JSON map files (*.tmj *.json)",
+    "openFiles": [
+        "First Asset pack.tsx",
+        "First Map.tmx",
+        "CollisionTileset.tsx"
+    ],
+    "project": "untitled.tiled-project",
+    "recentFiles": [
+        "First Asset pack.tsx",
+        "CollisionTileset.tsx",
+        "First Map.tmx"
+    ]
 }

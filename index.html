@@ -1,20 +1,86 @@
+<head>
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+    <link href="https://fonts.googleapis.com/css2?family=Press+Start+2P&display=swap" rel="stylesheet">
+</head>
+
 <style>
+    * {
+        font-family: 'Press Start 2P', cursive;
+    }
+
     body {
         background-color: black;
         image-rendering: pixelated;
     }
+
+    h1 {
+        margin: 0;
+    }
+
+    button {
+        border: none;
+        font-size: 16px;
+    }
+
+    button:hover {
+        background-color: #DDD;
+        cursor: pointer;
+    }
 </style>
 <div style="display: inline-block; position: relative">
-    <div id="battleFlash" style="background-color: black; position: absolute; top: 0; right: 0; bottom: 0; left:0; opacity: 1">
+    <div id="battleFlash"
+        style="background-color: black; position: absolute; top: 0; right: 0; bottom: 0; left:0; opacity: 0; z-index: 10; pointer-events: none;">
     </div>
     <canvas>
     </canvas>
+    <div id="battleDisplay" style="display: none">
+        <div
+            style="background-color: white; width: 300px; height: 50px; position: absolute; top: 50; left: 50; border: 4px solid black; padding: 12px;">
+            <h1 style="font-size: 16px;">Squirrel</h1>
+            <div style="position: relative;">
+                <div style="height: 5px; background-color: #CCC; margin-top: 10px;"></div>
+                <div id="enemyHealthBar"
+                style="position: absolute; left:0; top: 0; right:0; height: 5px; background-color: rgb(23, 236, 4);">
+            </div>
+            </div>
+        </div>
+        <div
+        style="background-color: white; width: 300px; height: 50px; position: absolute; right: 50; top: 300; border: 4px solid black; padding: 12px;">
+        <h1 style="font-size: 16px;">Ghost</h1>
+        <div style="position: relative;">
+            <div style="height: 5px; background-color: #CCC; margin-top: 10px;"></div>
+            <div id="playerHealthBar"
+            style="position: absolute; left:0; top: 0; right:0; height: 5px; background-color: rgb(23, 236, 4);">
+        </div>
+        </div>
+    </div>
+    <div class="battleMenu"
+        style="display: flex; flex-direction: row; justify-content: space-between; background-color: white; width: 100%; height: 130px; position: absolute; bottom: 0; left: 0; border-top: 4px solid black">
+        <div id='attacksBox' style='display: grid; grid-template-columns: repeat(2, 1fr); width: 100%'>
+            <!-- <button>Tackle</button>
+            <button>Haunt</button> -->
+            <!-- <button>Attack3</button>
+            <button>Attack4</button> -->
+        </div>
+        <div
+            style='display: flex; justify-content: center; align-items: center; width: 33.33%; height: 100%; border-left: 4px solid black;'>
+            <h1 id="attackType" style="font-size: 16px;">Attack Type</h1>
+        </div>
+        <div id="dialogBox" style="position: absolute; top: 0; bottom: 0; right: 0; left: 0; background-color: white; padding: 12px; display: none; cursor: pointer;"></div>
+    </div>
+</div>
+
 </div>
 
 <script src="https://cdnjs.cloudflare.com/ajax/libs/gsap/3.11.4/gsap.min.js"
     integrity="sha512-f8mwTB+Bs8a5c46DEm7HQLcJuHMBaH/UFlcgyetMqqkvTcYg4g5VXsYR71b3qC82lZytjNYvBj2pf0VekA9/FQ=="
     crossorigin="anonymous" referrerpolicy="no-referrer"></script>
+    <script src="classes.js"></script>
 <script src="./data/collitions.js"></script>
 <script src="./data/battleZones.js"></script>
-<!-- <script src="classes.js"></script> -->
+<script src="./data/attacks.js"></script>
+<script src="./data/monsters.js"></script>
 <script src="index.js"></script>
+<script src="./battleScene.js"></script>
