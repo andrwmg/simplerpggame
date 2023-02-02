@@ -108,7 +108,7 @@ const player = new Sprite({
         x: canvas.width / 8 - 192 / 32,
         y: canvas.height / 8 - 68 / 8,
     },
-    velocity: 1/2,
+    velocity: 1 / 2,
     frames: {
         min: 4,
         hold: 20,
@@ -322,8 +322,13 @@ animate()
 let lastKey = ''
 
 window.addEventListener('keydown', (e) => {
+    console.log(e.key)
     switch (e.key) {
         case 'w':
+            keys.w.pressed = true
+            lastKey = 'w'
+            break
+        case 'ArrowUp':
             keys.w.pressed = true
             lastKey = 'w'
             break
@@ -331,11 +336,23 @@ window.addEventListener('keydown', (e) => {
             keys.a.pressed = true
             lastKey = 'a'
             break
+        case 'ArrowLeft':
+            keys.a.pressed = true
+            lastKey = 'a'
+            break
         case 's':
             keys.s.pressed = true
             lastKey = 's'
             break
+        case 'ArrowDown':
+            keys.s.pressed = true
+            lastKey = 's'
+            break
         case 'd':
+            keys.d.pressed = true
+            lastKey = 'd'
+            break
+        case 'ArrowRight':
             keys.d.pressed = true
             lastKey = 'd'
             break
@@ -347,13 +364,25 @@ window.addEventListener('keyup', (e) => {
         case 'w':
             keys.w.pressed = false
             break
+        case 'ArrowUp':
+            keys.w.pressed = false
+            break
         case 'a':
+            keys.a.pressed = false
+            break
+        case 'ArrowLeft':
             keys.a.pressed = false
             break
         case 's':
             keys.s.pressed = false
             break
+        case 'ArrowDown':
+            keys.s.pressed = false
+            break
         case 'd':
+            keys.d.pressed = false
+            break
+        case 'ArrowRight':
             keys.d.pressed = false
             break
     }
