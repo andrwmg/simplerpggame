@@ -16,6 +16,7 @@ let battleAnimationId
 
 function initBattle() {
     document.querySelector('#battleDisplay').style.display = 'block'
+    document.querySelector('#onScreenButtons').style.display = 'none'
     document.querySelector('#dialogBox').style.display = 'none'
     document.querySelector('#enemyHealthBar').style.width = '100%'
     document.querySelector('#playerHealthBar').style.width = '100%'
@@ -53,6 +54,7 @@ function initBattle() {
                             cancelAnimationFrame(battleAnimationId)
                             animate()
                             document.querySelector('#battleDisplay').style.display = 'none'
+                            document.querySelector('#onScreenButtons').style.display = 'block'
                             gsap.to('#battleFlash', {
                                 opacity: 0
                             })
@@ -81,6 +83,7 @@ function initBattle() {
                                 cancelAnimationFrame(battleAnimationId)
                                 animate()
                                 document.querySelector('#battleDisplay').style.display = 'none'
+                                document.querySelector('#onScreenButtons').style.display = 'block'
                                 gsap.to('#battleFlash', {
                                     opacity: 0
                                 })

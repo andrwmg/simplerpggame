@@ -7,6 +7,8 @@ gsap.to('#battleFlash', {
     yoyo: true
 })
 
+console.log(window)
+
 canvas.height = 576
 canvas.width = 1024
 
@@ -171,14 +173,6 @@ function animate() {
     background.draw()
     boundaries.forEach(boundary => {
         boundary.draw()
-        if (
-            rectangularCollision({
-                rectangle1: player,
-                rectangle2: boundary
-            })
-        ) {
-            console.log('collision!!!')
-        }
     })
 
     // testBoundary.draw()
@@ -321,8 +315,48 @@ animate()
 
 let lastKey = ''
 
+const upButton = document.querySelector('#upButton')
+const leftButton = document.querySelector('#leftButton')
+const downButton = document.querySelector('#downButton')
+const rightButton = document.querySelector('#rightButton')
+
+upButton.addEventListener('touchstart', (e) => {
+    keys.w.pressed = true
+    lastKey = 'w'
+})
+
+upButton.addEventListener('touchend', (e) => {
+    keys.w.pressed = false
+})
+
+leftButton.addEventListener('touchstart', (e) => {
+    keys.a.pressed = true
+    lastKey = 'a'
+})
+
+leftButton.addEventListener('touchend', (e) => {
+    keys.a.pressed = false
+})
+
+downButton.addEventListener('touchstart', (e) => {
+    keys.s.pressed = true
+    lastKey = 's'
+})
+
+downButton.addEventListener('touchend', (e) => {
+    keys.s.pressed = false
+})
+
+rightButton.addEventListener('touchstart', (e) => {
+    keys.d.pressed = true
+    lastKey = 'd'
+})
+
+rightButton.addEventListener('touchend', (e) => {
+    keys.d.pressed = false
+})
+
 window.addEventListener('keydown', (e) => {
-    console.log(e.key)
     switch (e.key) {
         case 'w':
             keys.w.pressed = true
