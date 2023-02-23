@@ -338,6 +338,14 @@ upButton.addEventListener('touchend', (e) => {
     keys.w.pressed = false
 })
 
+upButton.addEventListener('pointerdown', (e) => {
+    keys.w.pressed = true
+    lastKey = 'w'
+})
+
+upButton.addEventListener('touchend', (e) => {
+    keys.w.pressed = false
+})
 leftButton.addEventListener('mousedown', (e) => {
     keys.a.pressed = true
     lastKey = 'a'
