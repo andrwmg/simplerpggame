@@ -320,15 +320,6 @@ const leftButton = document.querySelector('#leftButton')
 const downButton = document.querySelector('#downButton')
 const rightButton = document.querySelector('#rightButton')
 
-upButton.addEventListener('touchstart', (e) => {
-    keys.w.pressed = true
-    lastKey = 'w'
-})
-
-upButton.addEventListener('touchend', (e) => {
-    keys.w.pressed = false
-})
-
 upButton.addEventListener('mousedown', (e) => {
     keys.w.pressed = true
     lastKey = 'w'
@@ -338,13 +329,13 @@ upButton.addEventListener('mouseup', (e) => {
     keys.w.pressed = false
 })
 
-leftButton.addEventListener('touchstart', (e) => {
-    keys.a.pressed = true
-    lastKey = 'a'
+upButton.addEventListener('touchstart', (e) => {
+    keys.w.pressed = true
+    lastKey = 'w'
 })
 
-leftButton.addEventListener('touchend', (e) => {
-    keys.a.pressed = false
+upButton.addEventListener('touchend', (e) => {
+    keys.w.pressed = false
 })
 
 leftButton.addEventListener('mousedown', (e) => {
@@ -356,13 +347,13 @@ leftButton.addEventListener('mouseup', (e) => {
     keys.a.pressed = false
 })
 
-downButton.addEventListener('touchstart', (e) => {
-    keys.s.pressed = true
-    lastKey = 's'
+leftButton.addEventListener('touchstart', (e) => {
+    keys.a.pressed = true
+    lastKey = 'a'
 })
 
-downButton.addEventListener('touchend', (e) => {
-    keys.s.pressed = false
+leftButton.addEventListener('touchend', (e) => {
+    keys.a.pressed = false
 })
 
 downButton.addEventListener('mousedown', (e) => {
@@ -374,13 +365,13 @@ downButton.addEventListener('mouseup', (e) => {
     keys.s.pressed = false
 })
 
-rightButton.addEventListener('touchstart', (e) => {
-    keys.d.pressed = true
-    lastKey = 'd'
+downButton.addEventListener('touchstart', (e) => {
+    keys.s.pressed = true
+    lastKey = 's'
 })
 
-rightButton.addEventListener('touchend', (e) => {
-    keys.d.pressed = false
+downButton.addEventListener('touchend', (e) => {
+    keys.s.pressed = false
 })
 
 rightButton.addEventListener('mousedown', (e) => {
@@ -392,6 +383,14 @@ rightButton.addEventListener('mouseup', (e) => {
     keys.d.pressed = false
 })
 
+rightButton.addEventListener('touchstart', (e) => {
+    keys.d.pressed = true
+    lastKey = 'd'
+})
+
+rightButton.addEventListener('touchend', (e) => {
+    keys.d.pressed = false
+})
 
 window.addEventListener('keydown', (e) => {
     switch (e.key) {
