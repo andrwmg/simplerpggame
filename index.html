@@ -31,9 +31,13 @@
         cursor: pointer;
     }
 
+    #onScreenButtons {
+        display: block ;
+    }
+
     @media (pointer: fine) {
     #onScreenButtons {
-        display: 'none';
+        display: none;
     }
 }
 
@@ -43,7 +47,7 @@
         style="background-color: black; position: absolute; top: 0; right: 0; bottom: 0; left:0; opacity: 0; z-index: 10; pointer-events: none;">
     </div>
     <div id="onScreenButtons"
-        style="position: fixed; bottom: 0; right: 0; height: 200px; width: 200px; margin: 50px; opacity: .3">
+        style="position: absolute; bottom: 0; right: 0; height: 200px; width: 200px; margin: 50px; opacity: .3">
         <div style="height: 100%; width: 100%;">
                 <span class="material-icons-two-tone" style="font-size: 200px">
                     gamepad
